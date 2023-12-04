@@ -6,7 +6,7 @@
 /*   By: bcarolle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/02 16:13:04 by bcarolle          #+#    #+#             */
-/*   Updated: 2023/12/03 17:39:40 by bcarolle         ###   ########.fr       */
+/*   Updated: 2023/12/04 15:13:47 by bcarolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,16 +85,16 @@ void	put_mandelbrot(t_data *data)
 	double	x;
 	double	y;
 
-	x = 0.0;
-	y = 0.0;
-	while (x < WIDTH)
+	x = data->offset.x;
+	y = data->offset.y;
+	while (x < WIDTH + data->offset.x)
 	{
-		while (y < HEIGHT)
+		while (y < HEIGHT + data->offset.y)
 		{
-			put_pixel_mandelbrot(x, y, data);
+			put_pixel_mandelbrot(x, y , data);
 			y++;
 		}
-		y = 0.0;
+		y = data->offset.y;
 		x++;
 	}
 }
