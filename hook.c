@@ -6,7 +6,7 @@
 /*   By: bcarolle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 01:57:51 by bcarolle          #+#    #+#             */
-/*   Updated: 2023/12/03 17:29:14 by bcarolle         ###   ########.fr       */
+/*   Updated: 2023/12/06 12:59:15 by bcarolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,29 +44,51 @@ int	key_hook(int keycode, void *param)
 		mlx_destroy_window(data->mlx, data->mlx_win);
 		exit(0);
 	}
-	if (keycode == 100)
-		data->offset.x += 10.0;
-	if (keycode == 97)
-		data->offset.x -= 10.0;
-	if (keycode == 119)
-		data->offset.y += 10.0;
-	if (keycode == 115)
-		data->offset.y -= 10.0;
-	printf("Offset x = %f\n", data->offset.x);
-	printf("Offset y = %f\n", data->offset.y);
+	if (keycode == 65363)
+		data->offset.x += (10.0 / data->zoom.factor_x);
+	if (keycode == 65361)
+		data->offset.x -= (10.0 / data->zoom.factor_x);
+	if (keycode == 65364)
+		data->offset.y += (10.0 / data->zoom.factor_y);
+	if (keycode == 65362)
+		data->offset.y -= (10.0 / data->zoom.factor_y);
 	return (0);
 }
 
 int	mouse_hook(int button, int x, int y, void *param)
 {
-	t_data	*data;
+	t_data		*data;
+	t_coords_d	*mouse_after;
+	t_coords_d	*mouse_before;
+	t_coords_i	mouse;
 
 	data = (t_data *)param;
-	(void)x;
-	(void)y;
+	mouse.x = x;
+	mouse.y = y;
+	mouse_after = malloc(sizeof(t_coords_d));
+	mouse_before = malloc(sizeof(t_coords_d));
+	printf("%d %d\n", mouse.x, mouse.y);
 	if (button == 4)
-		data->zoom.factor *= 1.02;
+	{
+		screen_to_world(mouse, mouse_before, data);
+		data->zoom.factor_y *= 1.01;
+		data->zoom.factor_x *= 1.01;
+		screen_to_world(mouse, mouse_after, data);
+		data->offset.x += (mouse_before->x - mouse_after->x);
+		data->offset.y += (mouse_before->y - mouse_after->y);
+	}
 	else if (button == 5)
-		data->zoom.factor *= 0.98;
+	{
+		screen_to_world(mouse, mouse_before, data);
+		data->zoom.factor_y *= 0.99;
+		data->zoom.factor_x *= 0.99;
+		screen_to_world(mouse, mouse_after, data);
+		data->offset.x += (mouse_before->x - mouse_after->x);
+		data->offset.y += (mouse_before->y - mouse_after->y);
+	}
+	printf("%f %f\n", data->offset.x, data->offset.y);
+	printf("%f %f\n", data->zoom.factor_x, data->zoom.factor_y);
+	free(mouse_after);
+	free(mouse_before);
 	return (0);
 }

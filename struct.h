@@ -6,7 +6,7 @@
 /*   By: bcarolle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/02 16:15:42 by bcarolle          #+#    #+#             */
-/*   Updated: 2023/12/03 16:30:14 by bcarolle         ###   ########.fr       */
+/*   Updated: 2023/12/06 12:35:17 by bcarolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ typedef struct s_zoom
 {
 	double	x;
 	double	y;
-	double	factor;
+	double	factor_x;
+	double	factor_y;
 }				t_zoom;
 
 typedef struct s_color
@@ -34,27 +35,39 @@ typedef struct s_color
 	int	b;
 }				t_color;
 
-typedef struct s_coords
+typedef struct s_coords_d
 {
 	double	x;
 	double	y;
-}				t_coords;
+}				t_coords_d;
+
+typedef struct s_coords_i
+{
+	int	x;
+	int	y;
+}			t_coords_i;
+
+typedef struct s_mouse
+{
+	double	x;
+	double	y;
+}				t_mouse;
 
 typedef struct s_data
 {
-	void		*mlx;
-	void		*mlx_win;
-	char		*type;
-	double		xmin;
-	double		xmax;
-	double		ymin;
-	double		ymax;
-	t_zoom		zoom;
-	t_color		color;
-	t_complex	complex;
-	t_coords	world;
-	t_coords	screen;
-	t_coords	offset;
+	void			*mlx;
+	void			*mlx_win;
+	char			*type;
+	double			xmin;
+	double			xmax;
+	double			ymin;
+	double			ymax;
+	t_zoom			zoom;
+	t_color			color;
+	t_complex		complex;
+	t_coords_d		world;
+	t_coords_i		screen;
+	t_coords_d		offset;
 }				t_data;
 
 #endif

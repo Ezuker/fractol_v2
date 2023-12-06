@@ -6,7 +6,7 @@
 /*   By: bcarolle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/02 16:32:59 by bcarolle          #+#    #+#             */
-/*   Updated: 2023/12/03 15:11:56 by bcarolle         ###   ########.fr       */
+/*   Updated: 2023/12/06 13:07:47 by bcarolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,8 @@ int			ft_close(int keycode, void *param);
 int			key_hook(int keycode, void *param);
 int			mouse_hook(int button, int x, int y, void *param);
 void		put_mandelbrot(t_data *data);
+void		screen_to_world(t_coords_i screen, t_coords_d *world, t_data *data);
+void		world_to_screen(t_coords_d world, t_coords_i *screen, t_data *data);
+
 
 #endif

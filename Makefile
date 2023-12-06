@@ -2,6 +2,7 @@ SRC = \
 	fractol.c \
 	complex.c \
 	hook.c \
+	math_utils.c \
 
 OBJ = ${SRC:.c=.o}
 CC = cc

@@ -6,7 +6,7 @@
 /*   By: bcarolle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/02 16:13:04 by bcarolle          #+#    #+#             */
-/*   Updated: 2023/12/04 15:13:47 by bcarolle         ###   ########.fr       */
+/*   Updated: 2023/12/06 12:56:24 by bcarolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ void	init(char *option, t_data *data)
 	data->xmin = -2.1;
 	data->ymax = 1.2;
 	data->ymin = -1.2;
-	data->zoom.factor = 1.0;
+	data->zoom.factor_x = 1.0;
+	data->zoom.factor_y = 1.0;
 	data->color.t = 0;
 	data->color.r = 100;
 	data->color.g = 34;
@@ -57,27 +58,21 @@ void	put_pixel_mandelbrot(double x, double y, t_data *data)
 	pixel.img = 0;
 	pixel_2.real = 0;
 	pixel_2.img = 0;
-	c.real = (data->xmin + (x / WIDTH) * (data->xmax - data->xmin)) / data->zoom.factor;
-	c.img = (data->ymin + (y / HEIGHT) * (data->ymax - data->ymin)) / data->zoom.factor;
+	c.real = (data->xmin + (x / WIDTH) * (data->xmax - data->xmin));
+	c.img = (data->ymin + (y / HEIGHT) * (data->ymax - data->ymin));
 	i = 0.0;
-	while (i < 500.0 && (pixel_2.real + pixel_2.img) <= 4)
+	while (i < 50.0 && (pixel_2.real + pixel_2.img) <= 4.0)
 	{
-		pixel.img = 2 * pixel.real * pixel.img + c.img;
+		pixel.img = 2.0 * pixel.real * pixel.img + c.img;
 		pixel.real = pixel_2.real - pixel_2.img + c.real;
 		pixel_2.real = pixel.real * pixel.real;
 		pixel_2.img = pixel.img * pixel.img;
 		i++;
 	}
-	if (i == 500.0)
-	{
-		mlx_pixel_put(data->mlx, data->mlx_win, x - data->offset.x, y - data->offset.y, 0xFF000000);
-		//mlx_pixel_put(data->mlx, data->mlx_win, x - data->offset.x, HEIGHT - y - data->offset.y, 0xFF000000);
-	}
+	if (i == 50.0)
+		mlx_pixel_put(data->mlx, data->mlx_win, (x - data->offset.x) * data->zoom.factor_x, (y - data->offset.y) * data->zoom.factor_y, 0xFF000000);
 	else
-	{
-		mlx_pixel_put(data->mlx, data->mlx_win, x - data->offset.x, y - data->offset.y, get_color(i, data));
-		//mlx_pixel_put(data->mlx, data->mlx_win, x - data->offset.x, HEIGHT - y - data->offset.y, get_color(i, data));
-	}
+		mlx_pixel_put(data->mlx, data->mlx_win, (x - data->offset.x) * data->zoom.factor_x, (y - data->offset.y) * data->zoom.factor_y, get_color(i, data));
 }
 
 void	put_mandelbrot(t_data *data)
@@ -85,17 +80,17 @@ void	put_mandelbrot(t_data *data)
 	double	x;
 	double	y;
 
-	x = data->offset.x;
-	y = data->offset.y;
-	while (x < WIDTH + data->offset.x)
+	x = data->offset.x / data->zoom.factor_x;
+	y = data->offset.y / data->zoom.factor_y;
+	while (x < (WIDTH / data->zoom.factor_x + data->offset.x))
 	{
-		while (y < HEIGHT + data->offset.y)
+		while (y < (HEIGHT / data->zoom.factor_y + data->offset.y))
 		{
-			put_pixel_mandelbrot(x, y , data);
-			y++;
+			put_pixel_mandelbrot(x, y, data);
+			y += (1.0 / data->zoom.factor_y);
 		}
-		y = data->offset.y;
-		x++;
+		y = data->offset.y / data->zoom.factor_y;
+		x += (1.0 / data->zoom.factor_x);
 	}
 }
 
