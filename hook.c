@@ -6,7 +6,7 @@
 /*   By: bcarolle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 01:57:51 by bcarolle          #+#    #+#             */
-/*   Updated: 2023/12/06 12:59:15 by bcarolle         ###   ########.fr       */
+/*   Updated: 2023/12/06 19:51:20 by bcarolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,12 @@ int	ft_hook(void *param)
 	t_data	*data;
 
 	data = (t_data *)param;
-	put_mandelbrot(data);
+	if (ft_strcmp(data->type, "Mandelbrot") == 0)
+		put_mandelbrot(data);
+	else if (ft_strcmp(data->type, "Julia") == 0)
+		put_julia(data);
+	else if (ft_strcmp(data->type, "Burning ship") == 0)
+		put_burning_ship(data);
 	return (0);
 }
 
@@ -34,6 +39,30 @@ int	ft_close(int keycode, void *param)
 	return (0);
 }
 
+void	change_view(t_data *data, int keycode)
+{
+	if (keycode == 65363)
+		data->offset.x += (10.0 / data->zoom.factor_x);
+	if (keycode == 65361)
+		data->offset.x -= (10.0 / data->zoom.factor_x);
+	if (keycode == 65364)
+		data->offset.y += (10.0 / data->zoom.factor_y);
+	if (keycode == 65362)
+		data->offset.y -= (10.0 / data->zoom.factor_y);
+}
+
+void	change_julia(t_data *data, int keycode)
+{
+	if (keycode == 111)
+		data->complex.real += 0.005;
+	if (keycode == 112)
+		data->complex.real -= 0.005;
+	if (keycode == 108)
+		data->complex.img += 0.005;
+	if (keycode == 59)
+		data->complex.img -= 0.005;
+}
+
 int	key_hook(int keycode, void *param)
 {
 	t_data	*data;
@@ -44,30 +73,18 @@ int	key_hook(int keycode, void *param)
 		mlx_destroy_window(data->mlx, data->mlx_win);
 		exit(0);
 	}
-	if (keycode == 65363)
-		data->offset.x += (10.0 / data->zoom.factor_x);
-	if (keycode == 65361)
-		data->offset.x -= (10.0 / data->zoom.factor_x);
-	if (keycode == 65364)
-		data->offset.y += (10.0 / data->zoom.factor_y);
-	if (keycode == 65362)
-		data->offset.y -= (10.0 / data->zoom.factor_y);
+	change_view(data, keycode);
+	change_julia(data, keycode);
 	return (0);
 }
 
-int	mouse_hook(int button, int x, int y, void *param)
+static void	update_zoom(t_data *data, t_coords_i mouse, int button)
 {
-	t_data		*data;
 	t_coords_d	*mouse_after;
 	t_coords_d	*mouse_before;
-	t_coords_i	mouse;
 
-	data = (t_data *)param;
-	mouse.x = x;
-	mouse.y = y;
 	mouse_after = malloc(sizeof(t_coords_d));
 	mouse_before = malloc(sizeof(t_coords_d));
-	printf("%d %d\n", mouse.x, mouse.y);
 	if (button == 4)
 	{
 		screen_to_world(mouse, mouse_before, data);
@@ -86,9 +103,18 @@ int	mouse_hook(int button, int x, int y, void *param)
 		data->offset.x += (mouse_before->x - mouse_after->x);
 		data->offset.y += (mouse_before->y - mouse_after->y);
 	}
-	printf("%f %f\n", data->offset.x, data->offset.y);
-	printf("%f %f\n", data->zoom.factor_x, data->zoom.factor_y);
 	free(mouse_after);
 	free(mouse_before);
+}
+
+int	mouse_hook(int button, int x, int y, void *param)
+{
+	t_data		*data;
+	t_coords_i	mouse;
+
+	data = (t_data *)param;
+	mouse.x = x;
+	mouse.y = y;
+	update_zoom(data, mouse, button);
 	return (0);
 }

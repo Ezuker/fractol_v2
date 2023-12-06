@@ -6,7 +6,7 @@
 /*   By: bcarolle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 20:02:48 by bcarolle          #+#    #+#             */
-/*   Updated: 2023/12/04 16:00:27 by bcarolle         ###   ########.fr       */
+/*   Updated: 2023/12/06 18:14:43 by bcarolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ t_complex	mandelbrot_calcul(t_complex pixel, t_complex c)
 	return (result);
 }
 
-u_int32_t	get_color(double iter, t_data *data)
+int	get_color(double iter, t_data *data)
 {
-	u_int8_t	r = ((data->color.r / iter) * 255);
-	u_int8_t	g = ((data->color.g / iter) * 255);
-	u_int8_t	b = ((data->color.b / iter) * 255);
-	u_int8_t	a = data->color.t;
+	int	r = ((data->color.r / iter) * 255);
+	int	g = ((data->color.g / iter) * 255);
+	int	b = ((data->color.b / iter) * 255);
+	int	a = data->color.t;
 
 	return ((a << 24) | (r << 16) | (g << 8) | b);
 }

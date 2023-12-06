@@ -6,7 +6,7 @@
 /*   By: bcarolle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/02 16:15:42 by bcarolle          #+#    #+#             */
-/*   Updated: 2023/12/06 12:35:17 by bcarolle         ###   ########.fr       */
+/*   Updated: 2023/12/06 17:20:12 by bcarolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,15 @@ typedef struct s_mouse
 	double	y;
 }				t_mouse;
 
+typedef struct s_mlximg
+{
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+}				t_mlximg;
+
 typedef struct s_data
 {
 	void			*mlx;
@@ -68,6 +77,7 @@ typedef struct s_data
 	t_coords_d		world;
 	t_coords_i		screen;
 	t_coords_d		offset;
+	t_mlximg		mlx_img;
 }				t_data;
 
 #endif

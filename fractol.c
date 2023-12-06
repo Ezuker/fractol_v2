@@ -6,7 +6,7 @@
 /*   By: bcarolle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/02 16:13:04 by bcarolle          #+#    #+#             */
-/*   Updated: 2023/12/06 12:56:24 by bcarolle         ###   ########.fr       */
+/*   Updated: 2023/12/06 19:53:21 by bcarolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,17 @@ void	print_option(void)
 	ft_printf("\nChoose a fractal :\n\n");
 	ft_printf(" => Mandelbrot\n");
 	ft_printf(" => Julia\n");
-	ft_printf(" => Other\n\n");
+	ft_printf(" => \"Burning ship\"\n\n");
 }
-
-
 
 void	init(char *option, t_data *data)
 {
 	data->type = option;
+	if (strcmp(option, "Julia") == 0)
+	{
+		data->complex.real = 1;
+		data->complex.img = 1;
+	}
 	data->xmax = 1.6;
 	data->xmin = -2.1;
 	data->ymax = 1.2;
@@ -47,61 +50,15 @@ void	init(char *option, t_data *data)
 	data->offset.y = 0.0;
 }
 
-void	put_pixel_mandelbrot(double x, double y, t_data *data)
-{
-	t_complex	pixel;
-	t_complex	pixel_2;
-	t_complex	c;
-	double		i;
-
-	pixel.real = 0;
-	pixel.img = 0;
-	pixel_2.real = 0;
-	pixel_2.img = 0;
-	c.real = (data->xmin + (x / WIDTH) * (data->xmax - data->xmin));
-	c.img = (data->ymin + (y / HEIGHT) * (data->ymax - data->ymin));
-	i = 0.0;
-	while (i < 50.0 && (pixel_2.real + pixel_2.img) <= 4.0)
-	{
-		pixel.img = 2.0 * pixel.real * pixel.img + c.img;
-		pixel.real = pixel_2.real - pixel_2.img + c.real;
-		pixel_2.real = pixel.real * pixel.real;
-		pixel_2.img = pixel.img * pixel.img;
-		i++;
-	}
-	if (i == 50.0)
-		mlx_pixel_put(data->mlx, data->mlx_win, (x - data->offset.x) * data->zoom.factor_x, (y - data->offset.y) * data->zoom.factor_y, 0xFF000000);
-	else
-		mlx_pixel_put(data->mlx, data->mlx_win, (x - data->offset.x) * data->zoom.factor_x, (y - data->offset.y) * data->zoom.factor_y, get_color(i, data));
-}
-
-void	put_mandelbrot(t_data *data)
-{
-	double	x;
-	double	y;
-
-	x = data->offset.x / data->zoom.factor_x;
-	y = data->offset.y / data->zoom.factor_y;
-	while (x < (WIDTH / data->zoom.factor_x + data->offset.x))
-	{
-		while (y < (HEIGHT / data->zoom.factor_y + data->offset.y))
-		{
-			put_pixel_mandelbrot(x, y, data);
-			y += (1.0 / data->zoom.factor_y);
-		}
-		y = data->offset.y / data->zoom.factor_y;
-		x += (1.0 / data->zoom.factor_x);
-	}
-}
-
 void	display_window(t_data *data)
 {
 	data->mlx = mlx_init();
 	data->mlx_win = mlx_new_window(data->mlx, WIDTH, HEIGHT, "Fract'ol");
+	data->mlx_img.img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
+	data->mlx_img.addr = mlx_get_data_addr(data->mlx_img.img, &data->mlx_img.bits_per_pixel, &data->mlx_img.line_length, &data->mlx_img.endian);
 
 	mlx_hook(data->mlx_win, 17, 0, ft_close, data);
 	mlx_key_hook(data->mlx_win, key_hook, data);
-	put_mandelbrot(data);
 	mlx_mouse_hook(data->mlx_win, mouse_hook, data);
 	mlx_loop_hook(data->mlx, ft_hook, data);
 	mlx_loop(data->mlx);
@@ -112,7 +69,7 @@ int	main(int argc, char **argv)
 	t_data	*data;
 
 	if (argc >= 2 && (!ft_strcmp(argv[1], "Mandelbrot")
-			|| !ft_strcmp(argv[1], "Julia")))
+			|| !ft_strcmp(argv[1], "Julia") || !ft_strcmp(argv[1], "Burning ship")))
 	{
 		data = malloc(sizeof(t_data));
 		init(argv[1], data);

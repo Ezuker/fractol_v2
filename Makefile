@@ -3,6 +3,9 @@ SRC = \
 	complex.c \
 	hook.c \
 	math_utils.c \
+	mandelbrot.c \
+	julia.c \
+	burning_ship.c \
 
 OBJ = ${SRC:.c=.o}
 CC = cc
