@@ -6,7 +6,7 @@
 /*   By: bcarolle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 15:30:06 by bcarolle          #+#    #+#             */
-/*   Updated: 2023/12/07 18:13:24 by bcarolle         ###   ########.fr       */
+/*   Updated: 2023/12/07 23:23:46 by bcarolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ void	put_pixel_julia(double x, double y, t_data *data)
 	pixel.real = (data->xmin + (x / WIDTH) * (data->xmax - data->xmin));
 	pixel.img = (data->ymin + (y / HEIGHT) * (data->ymax - data->ymin));
 	i = 0.0;
-	while (i < 50.0 && (pixel.real * pixel.real) + (pixel.img * pixel.img) <= 4.0)
+	while (i < 50.0 && pow(pixel.real, 2) + pow(pixel.img, 2) <= 4.0)
 	{
-		temp_x = (pixel.real * pixel.real) - (pixel.img * pixel.img) + data->complex.real;
+		temp_x = pow(pixel.real, 2) - pow(pixel.img, 2) + data->complex.real;
 		pixel.img = 2.0 * pixel.real * pixel.img + data->complex.img;
 		pixel.real = temp_x;
 		i++;
@@ -35,6 +35,7 @@ void	put_pixel_julia(double x, double y, t_data *data)
 	}
 	x = ((x - data->offset.x) * data->zoom.factor_x);
 	y = ((y - data->offset.y) * data->zoom.factor_y);
+	//printf("%f ", i);
 	if (i == 50.0)
 		my_mlx_pixel_put(&data->mlx_img, x, y, 0xFF000000);
 	else

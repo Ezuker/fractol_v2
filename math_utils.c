@@ -6,7 +6,7 @@
 /*   By: bcarolle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 11:39:50 by bcarolle          #+#    #+#             */
-/*   Updated: 2023/12/06 19:40:00 by bcarolle         ###   ########.fr       */
+/*   Updated: 2023/12/07 22:58:08 by bcarolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	my_mlx_pixel_put(t_mlximg *data, int x, int y, int color)
 
 	if (x >= 0 && y >= 0)
 	{
-		dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+		dst = data->addr + (y * data->line_length + x * (data->bit_pix / 8));
 		*(unsigned int *)dst = color;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: bcarolle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/02 16:15:42 by bcarolle          #+#    #+#             */
-/*   Updated: 2023/12/06 17:20:12 by bcarolle         ###   ########.fr       */
+/*   Updated: 2023/12/07 22:57:53 by bcarolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ typedef struct s_mlximg
 {
 	void	*img;
 	char	*addr;
-	int		bits_per_pixel;
+	int		bit_pix;
 	int		line_length;
 	int		endian;
 }				t_mlximg;
@@ -71,6 +71,8 @@ typedef struct s_data
 	double			xmax;
 	double			ymin;
 	double			ymax;
+	int				julia_freeze;
+	int				mandelbrot_pow;
 	t_zoom			zoom;
 	t_color			color;
 	t_complex		complex;

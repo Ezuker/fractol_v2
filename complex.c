@@ -6,7 +6,7 @@
 /*   By: bcarolle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 20:02:48 by bcarolle          #+#    #+#             */
-/*   Updated: 2023/12/07 18:48:54 by bcarolle         ###   ########.fr       */
+/*   Updated: 2023/12/07 23:25:34 by bcarolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,13 @@ int	get_color(double iter, t_data *data, t_complex pixel)
 	unsigned char	g;
 	unsigned char	b;
 	unsigned char	a;
-	(void) data;
+	double			result_log;
 
-	iter = iter + 1 - (log(sqrt(pow(pixel.real, 2) + pow(pixel.img, 2))) / log (2));
-	r = (unsigned char)(sin(0.017 * iter + 4) * 230 + 25);
-	g = (unsigned char)(sin(0.113 * iter + 2) * 230 + 25);
-	b = (unsigned char)(sin(0.01 * iter + 1) * 230 + 25);
-	a = 255;
-
+	result_log = log(sqrt(pow(pixel.real, 2.0) + pow(pixel.img, 2.0)));
+	iter = iter + 1.0 - result_log / log (2.0);
+	r = (unsigned char)(sin(0.017 * iter + 4.0) * data->color.r + 25.0);
+	g = (unsigned char)(sin(0.113 * iter + 2.0) * data->color.g + 25.0);
+	b = (unsigned char)(sin(0.01 * iter + 1.0) * data->color.b + 25.0);
+	a = 255.0;
 	return (a << 24 | r << 16 | g << 8 | b);
 }

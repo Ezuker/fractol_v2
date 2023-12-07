@@ -6,11 +6,32 @@
 /*   By: bcarolle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 15:27:37 by bcarolle          #+#    #+#             */
-/*   Updated: 2023/12/07 18:12:46 by bcarolle         ###   ########.fr       */
+/*   Updated: 2023/12/07 22:54:35 by bcarolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
+
+t_complex	burningship_pow(t_complex pixel, t_complex c, int pow)
+{
+	int		i;
+	double	temp_x;
+
+	i = 2;
+	pixel.real = fabs(pixel.real);
+	pixel.img = fabs(pixel.img);
+	temp_x = (pixel.real * pixel.real) - (pixel.img * pixel.img) + c.real;
+	pixel.img = 2.0 * pixel.real * pixel.img + c.img;
+	pixel.real = temp_x;
+	while (i < pow)
+	{
+		temp_x = (pixel.real * pixel.real) - (pixel.img * pixel.img);
+		pixel.img = 2.0 * pixel.real * pixel.img;
+		pixel.real = temp_x;
+		i++;
+	}
+	return (pixel);
+}
 
 void	put_pixel_burning_ship(double x, double y, t_data *data)
 {
@@ -18,7 +39,6 @@ void	put_pixel_burning_ship(double x, double y, t_data *data)
 	t_complex	pixel_old;
 	t_complex	c;
 	double		i;
-	double		temp_x;
 
 	pixel.real = 0;
 	pixel.img = 0;
@@ -27,21 +47,18 @@ void	put_pixel_burning_ship(double x, double y, t_data *data)
 	c.real = (data->xmin + (x / WIDTH) * (data->xmax - data->xmin));
 	c.img = (data->ymin + (y / HEIGHT) * (data->ymax - data->ymin));
 	i = 0.0;
-	while (i < 50.0 && (pixel.real * pixel.real) + (pixel.img * pixel.img) <= 4.0)
+	while (++i < 50.0 && pow(pixel.real, 2) + pow(pixel.img, 2) <= 4.0)
 	{
-		pixel.real = fabs(pixel.real);
-		pixel.img = fabs(pixel.img);
-		temp_x = (pixel.real * pixel.real) - (pixel.img * pixel.img) + c.real;
-		pixel.img = (2.0 * pixel.real * pixel.img) + c.img;
-		pixel.real = temp_x;
-		i++;
+		burningship_pow(pixel, c, 2);
 		if (pixel.real == pixel_old.real && pixel.img == pixel_old.img)
 			i = 50.0;
 	}
+	x = (x - data->offset.x) * data->zoom.factor_x;
+	y = (y - data->offset.y) * data->zoom.factor_y;
 	if (i == 50.0)
-		my_mlx_pixel_put(&data->mlx_img, (x - data->offset.x) * data->zoom.factor_x, (y - data->offset.y) * data->zoom.factor_y, 0xFF000000);
+		my_mlx_pixel_put(&data->mlx_img, x, y, 0xFF000000);
 	else
-		my_mlx_pixel_put(&data->mlx_img, (x - data->offset.x) * data->zoom.factor_x, (y - data->offset.y) * data->zoom.factor_y, get_color(i, data, pixel));
+		my_mlx_pixel_put(&data->mlx_img, x, y, get_color(i, data, pixel));
 }
 
 void	put_burning_ship(t_data *data)

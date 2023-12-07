@@ -6,7 +6,7 @@
 /*   By: bcarolle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/02 16:13:04 by bcarolle          #+#    #+#             */
-/*   Updated: 2023/12/07 19:08:37 by bcarolle         ###   ########.fr       */
+/*   Updated: 2023/12/07 23:11:14 by bcarolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,13 @@ void	init(char *option, t_data *data)
 	data->zoom.factor_x = 1.0;
 	data->zoom.factor_y = 1.0;
 	data->color.t = 0;
-	data->color.r = 100;
-	data->color.g = 34;
-	data->color.b = 21;
+	data->color.r = 230;
+	data->color.g = 230;
+	data->color.b = 230;
 	data->offset.x = 0.0;
 	data->offset.y = 0.0;
+	data->julia_freeze = 0;
+	data->mandelbrot_pow = 2;
 }
 
 void	display_window(t_data *data)
@@ -55,8 +57,10 @@ void	display_window(t_data *data)
 	data->mlx = mlx_init();
 	data->mlx_win = mlx_new_window(data->mlx, WIDTH, HEIGHT, "Fract'ol");
 	data->mlx_img.img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
-	data->mlx_img.addr = mlx_get_data_addr(data->mlx_img.img, &data->mlx_img.bits_per_pixel, &data->mlx_img.line_length, &data->mlx_img.endian);
-
+	data->mlx_img.addr = mlx_get_data_addr(data->mlx_img.img,
+			&data->mlx_img.bit_pix,
+			&data->mlx_img.line_length,
+			&data->mlx_img.endian);
 	mlx_hook(data->mlx_win, 17, 0, ft_close, data);
 	mlx_key_hook(data->mlx_win, key_hook, data);
 	mlx_mouse_hook(data->mlx_win, mouse_hook, data);
@@ -69,7 +73,8 @@ int	main(int argc, char **argv)
 	t_data	*data;
 
 	if (argc >= 2 && (!ft_strcmp(argv[1], "Mandelbrot")
-			|| !ft_strcmp(argv[1], "Julia") || !ft_strcmp(argv[1], "Burning ship")))
+			|| !ft_strcmp(argv[1], "Julia")
+			|| !ft_strcmp(argv[1], "Burning ship")))
 	{
 		data = malloc(sizeof(t_data));
 		init(argv[1], data);

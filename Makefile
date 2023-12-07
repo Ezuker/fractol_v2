@@ -6,6 +6,7 @@ SRC = \
 	mandelbrot.c \
 	julia.c \
 	burning_ship.c \
+	view.c \
 
 OBJ = ${SRC:.c=.o}
 CC = cc
