@@ -6,7 +6,7 @@
 /*   By: bcarolle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/02 16:13:04 by bcarolle          #+#    #+#             */
-/*   Updated: 2023/12/07 23:11:14 by bcarolle         ###   ########.fr       */
+/*   Updated: 2023/12/08 00:37:50 by bcarolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,36 @@ void	print_option(void)
 	ft_printf("\nChoose a fractal :\n\n");
 	ft_printf(" => Mandelbrot\n");
 	ft_printf(" => Julia\n");
-	ft_printf(" => \"Burning ship\"\n\n");
+	ft_printf(" => Burning ship\n\n");
 }
 
-void	init(char *option, t_data *data)
+void	reset(t_data *data)
 {
-	data->type = option;
-	if (strcmp(option, "Julia") == 0)
+	data->complex.real = 1.0;
+	data->complex.img = 1.0;
+	data->xmax = 1.6;
+	data->xmin = -2.1;
+	data->ymax = 1.2;
+	data->ymin = -1.2;
+	data->zoom.factor_x = 1.0;
+	data->zoom.factor_y = 1.0;
+	data->color.t = 0;
+	data->color.r = 230;
+	data->color.g = 230;
+	data->color.b = 230;
+	data->offset.x = 0.0;
+	data->offset.y = 0.0;
+	data->julia_freeze = 0;
+	data->mandelbrot_pow = 2;
+}
+
+void	init(char **option, t_data *data)
+{
+	data->type = option[1];
+	if (strcmp(option[1], "Julia") == 0)
 	{
-		data->complex.real = 1;
-		data->complex.img = 1;
+		data->complex.real = ft_atof(option[2]);
+		data->complex.img = ft_atof(option[3]);
 	}
 	data->xmax = 1.6;
 	data->xmin = -2.1;
@@ -68,17 +88,27 @@ void	display_window(t_data *data)
 	mlx_loop(data->mlx);
 }
 
+int	check_args(char **argv)
+{
+	if (!ft_strcmp(argv[1], "Mandelbrot"))
+		return (1);
+	if (!ft_strcmp(argv[1], "Julia"))
+		return (1);
+	if (!ft_strcmp(argv[1], "Burning") && !ft_strcmp(argv[2], "ship"))
+		return (1);
+	return (0);
+}
+
 int	main(int argc, char **argv)
 {
 	t_data	*data;
 
-	if (argc >= 2 && (!ft_strcmp(argv[1], "Mandelbrot")
-			|| !ft_strcmp(argv[1], "Julia")
-			|| !ft_strcmp(argv[1], "Burning ship")))
+	if (argc >= 2 && check_args(argv))
 	{
 		data = malloc(sizeof(t_data));
-		init(argv[1], data);
+		init(argv, data);
 		display_window(data);
+		free(data);
 	}
 	else
 	{

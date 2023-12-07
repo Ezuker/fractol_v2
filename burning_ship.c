@@ -6,7 +6,7 @@
 /*   By: bcarolle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 15:27:37 by bcarolle          #+#    #+#             */
-/*   Updated: 2023/12/07 22:54:35 by bcarolle         ###   ########.fr       */
+/*   Updated: 2023/12/08 00:36:08 by bcarolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ t_complex	burningship_pow(t_complex pixel, t_complex c, int pow)
 	double	temp_x;
 
 	i = 2;
+
 	pixel.real = fabs(pixel.real);
 	pixel.img = fabs(pixel.img);
 	temp_x = (pixel.real * pixel.real) - (pixel.img * pixel.img) + c.real;
@@ -47,9 +48,10 @@ void	put_pixel_burning_ship(double x, double y, t_data *data)
 	c.real = (data->xmin + (x / WIDTH) * (data->xmax - data->xmin));
 	c.img = (data->ymin + (y / HEIGHT) * (data->ymax - data->ymin));
 	i = 0.0;
-	while (++i < 50.0 && pow(pixel.real, 2) + pow(pixel.img, 2) <= 4.0)
+	while (i < 50.0 && pow(pixel.real, 2) + pow(pixel.img, 2) <= 4.0)
 	{
-		burningship_pow(pixel, c, 2);
+		pixel = burningship_pow(pixel, c, 2);
+		i++;
 		if (pixel.real == pixel_old.real && pixel.img == pixel_old.img)
 			i = 50.0;
 	}

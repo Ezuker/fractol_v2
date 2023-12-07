@@ -6,7 +6,7 @@
 /*   By: bcarolle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 22:48:53 by bcarolle          #+#    #+#             */
-/*   Updated: 2023/12/07 23:17:27 by bcarolle         ###   ########.fr       */
+/*   Updated: 2023/12/08 00:32:34 by bcarolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ void	change_view(t_data *data, int keycode)
 	if (keycode == 106)
 		data->type = "Julia";
 	if (keycode == 98)
-		data->type = "Burning ship";
+		data->type = "Burning";
 	if (keycode == 114)
-		init(data->type, data);
+		reset(data);
 	if (keycode == 107)
 		data->mandelbrot_pow += 1;
 	if (keycode == 105)

@@ -6,7 +6,7 @@
 /*   By: bcarolle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 01:57:51 by bcarolle          #+#    #+#             */
-/*   Updated: 2023/12/07 23:15:29 by bcarolle         ###   ########.fr       */
+/*   Updated: 2023/12/08 00:19:18 by bcarolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	ft_hook(void *param)
 		if (data->julia_freeze == 1)
 			change_julia(data, x, y);
 	}
-	else if (ft_strcmp(data->type, "Burning ship") == 0)
+	else if (ft_strcmp(data->type, "Burning") == 0)
 		put_burning_ship(data);
 	return (0);
 }

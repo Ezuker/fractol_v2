@@ -6,7 +6,7 @@
 /*   By: bcarolle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/02 16:32:59 by bcarolle          #+#    #+#             */
-/*   Updated: 2023/12/07 23:16:06 by bcarolle         ###   ########.fr       */
+/*   Updated: 2023/12/08 00:33:22 by bcarolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,9 @@ void		world_to_screen(t_coords_d world, t_coords_i *screen, t_data *data);
 void		put_julia(t_data *data);
 void		my_mlx_pixel_put(t_mlximg *data, int x, int y, int color);
 void		put_burning_ship(t_data *data);
-void		init(char *option, t_data *data);
+void		init(char **option, t_data *data);
 void		change_view(t_data *data, int keycode);
 void		update_zoom(t_data *data, t_coords_i mouse, int button);
 void		change_offset(t_data *data, int keycode);
+void		reset(t_data *data);
 #endif

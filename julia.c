@@ -6,7 +6,7 @@
 /*   By: bcarolle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 15:30:06 by bcarolle          #+#    #+#             */
-/*   Updated: 2023/12/07 23:23:46 by bcarolle         ###   ########.fr       */
+/*   Updated: 2023/12/08 00:23:46 by bcarolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	put_pixel_julia(double x, double y, t_data *data)
 	}
 	x = ((x - data->offset.x) * data->zoom.factor_x);
 	y = ((y - data->offset.y) * data->zoom.factor_y);
-	//printf("%f ", i);
 	if (i == 50.0)
 		my_mlx_pixel_put(&data->mlx_img, x, y, 0xFF000000);
 	else

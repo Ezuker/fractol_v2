@@ -1,4 +1,5 @@
 SRC = \
+	ft_atof.c \
 	ft_strcmp.c \
 	ft_isalpha.c \
 	ft_isalnum.c \
