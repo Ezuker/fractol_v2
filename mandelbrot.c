@@ -6,7 +6,7 @@
 /*   By: bcarolle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 15:27:37 by bcarolle          #+#    #+#             */
-/*   Updated: 2023/12/06 19:48:29 by bcarolle         ###   ########.fr       */
+/*   Updated: 2023/12/07 18:12:39 by bcarolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	put_pixel_mandelbrot(double x, double y, t_data *data)
 	if (i == 50.0)
 		my_mlx_pixel_put(&data->mlx_img, (x - data->offset.x) * data->zoom.factor_x, (y - data->offset.y) * data->zoom.factor_y, 0xFF000000);
 	else
-		my_mlx_pixel_put(&data->mlx_img, (x - data->offset.x) * data->zoom.factor_x, (y - data->offset.y) * data->zoom.factor_y, get_color(i, data));
+		my_mlx_pixel_put(&data->mlx_img, (x - data->offset.x) * data->zoom.factor_x, (y - data->offset.y) * data->zoom.factor_y, get_color(i, data, pixel));
 }
 
 void	put_mandelbrot(t_data *data)

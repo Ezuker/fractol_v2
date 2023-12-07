@@ -6,7 +6,7 @@
 /*   By: bcarolle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 15:30:06 by bcarolle          #+#    #+#             */
-/*   Updated: 2023/12/06 19:48:00 by bcarolle         ###   ########.fr       */
+/*   Updated: 2023/12/07 18:13:24 by bcarolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,14 @@ void	put_pixel_julia(double x, double y, t_data *data)
 	if (i == 50.0)
 		my_mlx_pixel_put(&data->mlx_img, x, y, 0xFF000000);
 	else
-		my_mlx_pixel_put(&data->mlx_img, x, y, get_color(i, data));
+		my_mlx_pixel_put(&data->mlx_img, x, y, get_color(i, data, pixel));
 }
 
 void	put_julia(t_data *data)
 {
 	double	x;
 	double	y;
-	
+
 	x = data->offset.x / data->zoom.factor_x;
 	y = data->offset.y / data->zoom.factor_y;
 	while (x < (WIDTH / data->zoom.factor_x + data->offset.x))
