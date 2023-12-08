@@ -6,7 +6,7 @@
 /*   By: bcarolle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 16:19:36 by bcarolle          #+#    #+#             */
-/*   Updated: 2023/12/08 00:16:58 by bcarolle         ###   ########.fr       */
+/*   Updated: 2023/12/08 02:05:24 by bcarolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ static double	ft_addcomma(char *s, int i, double sum)
 	if (s[i] == '.')
 	{
 		i++;
-
 		while (s[i] && s[i] >= '0' && s[i] <= '9')
 		{
 			add_value = (s[i] - '0') / divide;

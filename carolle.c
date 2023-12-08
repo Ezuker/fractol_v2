@@ -1,39 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   burning_ship.c                                     :+:      :+:    :+:   */
+/*   carolle.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bcarolle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 15:27:37 by bcarolle          #+#    #+#             */
-/*   Updated: 2023/12/08 02:05:48 by bcarolle         ###   ########.fr       */
+/*   Updated: 2023/12/08 02:05:38 by bcarolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-t_complex	burningship_pow(t_complex pixel, t_complex c, int pow)
+t_complex	complex_divide(t_complex a, t_complex b)
 {
-	int		i;
-	double	temp_x;
+	t_complex	result;
+	double		denominator;
 
-	i = 2;
-	pixel.real = fabs(pixel.real);
-	pixel.img = fabs(pixel.img);
-	temp_x = (pixel.real * pixel.real) - (pixel.img * pixel.img) + c.real;
-	pixel.img = 2.0 * pixel.real * pixel.img + c.img;
-	pixel.real = temp_x;
-	while (i < pow)
+	if (b.real == 0.0 && b.img == 0.0)
 	{
-		temp_x = (pixel.real * pixel.real) - (pixel.img * pixel.img);
-		pixel.img = 2.0 * pixel.real * pixel.img;
-		pixel.real = temp_x;
-		i++;
+		result.real = 0.0;
+		result.img = 0.0;
+		return (result);
 	}
-	return (pixel);
+	denominator = (b.real * b.real) + (b.img * b.img);
+	result.real = (a.real * b.real + a.img * b.img) / denominator;
+	result.img = (a.img * b.real - a.real * b.img) / denominator;
+	return (result);
 }
 
-void	put_pixel_burning_ship(double x, double y, t_data *data)
+t_complex	cos_complex(t_complex z)
+{
+	t_complex	result;
+
+	result.real = cos(z.real) * cosh(z.img);
+	result.img = -sin(z.real) * sinh(z.img);
+	return (result);
+}
+
+void	put_pixel_carolle(double x, double y, t_data *data)
 {
 	t_complex	pixel;
 	t_complex	pixel_old;
@@ -49,7 +54,7 @@ void	put_pixel_burning_ship(double x, double y, t_data *data)
 	i = 0.0;
 	while (i < 50.0 && pow(pixel.real, 2) + pow(pixel.img, 2) <= 4.0)
 	{
-		pixel = burningship_pow(pixel, c, 2);
+		pixel = cos_complex(complex_divide(pixel, c));
 		i++;
 		if (pixel.real == pixel_old.real && pixel.img == pixel_old.img)
 			i = 50.0;
@@ -62,7 +67,7 @@ void	put_pixel_burning_ship(double x, double y, t_data *data)
 		my_mlx_pixel_put(&data->mlx_img, x, y, get_color(i, data, pixel));
 }
 
-void	put_burning_ship(t_data *data)
+void	put_carolle(t_data *data)
 {
 	double	x;
 	double	y;
@@ -73,7 +78,7 @@ void	put_burning_ship(t_data *data)
 	{
 		while (y < (HEIGHT / data->zoom.factor_y + data->offset.y))
 		{
-			put_pixel_burning_ship(x, y, data);
+			put_pixel_carolle(x, y, data);
 			y += (1.0 / data->zoom.factor_y);
 		}
 		y = data->offset.y / data->zoom.factor_y;

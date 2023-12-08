@@ -7,6 +7,7 @@ SRC = \
 	julia.c \
 	burning_ship.c \
 	view.c \
+	carolle.c \
 
 OBJ = ${SRC:.c=.o}
 CC = cc

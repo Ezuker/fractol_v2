@@ -6,7 +6,7 @@
 /*   By: bcarolle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 22:48:53 by bcarolle          #+#    #+#             */
-/*   Updated: 2023/12/08 00:32:34 by bcarolle         ###   ########.fr       */
+/*   Updated: 2023/12/08 02:04:19 by bcarolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,26 @@ void	update_zoom(t_data *data, t_coords_i mouse, int button)
 		update_offset_zoom(data, mouse, 0.99);
 }
 
+void	reset(t_data *data)
+{
+	data->complex.real = 1.0;
+	data->complex.img = 1.0;
+	data->xmax = 1.6;
+	data->xmin = -2.1;
+	data->ymax = 1.2;
+	data->ymin = -1.2;
+	data->zoom.factor_x = 1.0;
+	data->zoom.factor_y = 1.0;
+	data->color.t = 0;
+	data->color.r = 230;
+	data->color.g = 230;
+	data->color.b = 230;
+	data->offset.x = 0.0;
+	data->offset.y = 0.0;
+	data->julia_freeze = 0;
+	data->mandelbrot_pow = 2;
+}
+
 void	change_view(t_data *data, int keycode)
 {
 	if (keycode == 109)
@@ -45,6 +65,8 @@ void	change_view(t_data *data, int keycode)
 		data->type = "Julia";
 	if (keycode == 98)
 		data->type = "Burning";
+	if (keycode == 99)
+		data->type = "Carolle";
 	if (keycode == 114)
 		reset(data);
 	if (keycode == 107)
