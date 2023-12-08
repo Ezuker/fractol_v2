@@ -6,7 +6,7 @@
 /*   By: bcarolle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/02 16:32:59 by bcarolle          #+#    #+#             */
-/*   Updated: 2023/12/08 01:51:41 by bcarolle         ###   ########.fr       */
+/*   Updated: 2023/12/08 17:59:37 by bcarolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ double		pow_2(t_complex z);
 t_complex	mandelbrot_calcul(t_complex pixel, t_complex c);
 int			get_color(double iter, t_data *data, t_complex pixel);
 int			ft_hook(void *param);
-int			ft_close(int keycode, void *param);
+int			ft_close(void *param);
 int			key_hook(int keycode, void *param);
 int			mouse_hook(int button, int x, int y, void *param);
 void		put_mandelbrot(t_data *data);

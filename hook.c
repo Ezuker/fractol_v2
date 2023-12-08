@@ -6,7 +6,7 @@
 /*   By: bcarolle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 01:57:51 by bcarolle          #+#    #+#             */
-/*   Updated: 2023/12/08 01:46:12 by bcarolle         ###   ########.fr       */
+/*   Updated: 2023/12/08 17:59:14 by bcarolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,18 +48,21 @@ int	ft_hook(void *param)
 	return (0);
 }
 
-int	ft_close(int keycode, void *param)
+int	ft_close(void *param)
 {
 	t_data	*data;
 
 	data = (t_data *)param;
-	(void)keycode;
-	mlx_clear_window(data->mlx, data->mlx_win);
-	mlx_destroy_window(data->mlx, data->mlx_win);
-	mlx_destroy_image(data->mlx, data->mlx_img.img);
-	mlx_destroy_display(data->mlx);
-	free(data);
-	exit(0);
+	if (data)
+	{
+		mlx_clear_window(data->mlx, data->mlx_win);
+		mlx_destroy_image(data->mlx, data->mlx_img.img);
+		mlx_destroy_window(data->mlx, data->mlx_win);
+		mlx_destroy_display(data->mlx);
+		free(data->mlx);
+		free(data);
+		exit(0);
+	}
 	return (0);
 }
 
@@ -71,8 +74,10 @@ int	key_hook(int keycode, void *param)
 	if (keycode == 65307)
 	{
 		mlx_clear_window(data->mlx, data->mlx_win);
-		mlx_destroy_window(data->mlx, data->mlx_win);
 		mlx_destroy_image(data->mlx, data->mlx_img.img);
+		mlx_destroy_window(data->mlx, data->mlx_win);
+		mlx_destroy_display(data->mlx);
+		free(data->mlx);
 		free(data);
 		exit(0);
 	}

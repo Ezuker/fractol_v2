@@ -15,6 +15,7 @@ CFLAGS = -Wall -Wextra -Werror -g
 RM = rm -rf
 NAME = fractol
 PRINTF = "./ft_printf"
+MLX = "./mlx-linux"
 LIBS	= -Lmlx_linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz libftprintf.a libmlx.a
 
 all: ${NAME}
@@ -25,15 +26,19 @@ all: ${NAME}
 $(NAME): $(OBJ)
 	make -C $(PRINTF)
 	mv $(PRINTF)/libftprintf.a .
+	make all -C $(MLX)
+	mv $(MLX)/libmlx.a .
 	$(CC) $(OBJ) $(LIBS) -o $(NAME)
 
 clean:
 	make clean -C $(PRINTF)
+	make clean -C $(MLX)
 	$(RM) $(OBJ)
 
 fclean: clean
 	make fclean -C $(PRINTF)
 	$(RM) $(NAME) libftprintf.a
+	$(RM) $(NAME) libmlx.a
 
 re: fclean all
 

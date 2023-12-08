@@ -6,7 +6,7 @@
 /*   By: bcarolle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/02 16:13:04 by bcarolle          #+#    #+#             */
-/*   Updated: 2023/12/08 02:04:09 by bcarolle         ###   ########.fr       */
+/*   Updated: 2023/12/08 18:23:56 by bcarolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,17 @@ void	print_option(void)
 	ft_printf(" => Julia\n");
 	ft_printf(" => Burning ship\n");
 	ft_printf(" => Carolle\n\n");
+	ft_printf("Keys :\n\n");
+	ft_printf("  M -> Mandelbrot\n");
+	ft_printf("  J -> Julia\n");
+	ft_printf("  B -> Burning Ship\n");
+	ft_printf("  C -> Carolle\n");
+	ft_printf("  K -> Add power Mandelbrot\n");
+	ft_printf("  I -> Decrease power Mandelbrot\n");
+	ft_printf("SPACE -> Enable / Disable Julia Animation\n");
+	ft_printf("  T -> Change color R\n");
+	ft_printf("  Y -> Change color G\n");
+	ft_printf("  U -> Change color B\n\n");
 }
 
 void	init(char **option, t_data *data, int argc)
@@ -67,8 +78,8 @@ void	display_window(t_data *data)
 			&data->mlx_img.bit_pix,
 			&data->mlx_img.line_length,
 			&data->mlx_img.endian);
-	mlx_hook(data->mlx_win, 17, 0, ft_close, data);
 	mlx_key_hook(data->mlx_win, key_hook, data);
+	mlx_hook(data->mlx_win, 17, 0, ft_close, data);
 	mlx_mouse_hook(data->mlx_win, mouse_hook, data);
 	mlx_loop_hook(data->mlx, ft_hook, data);
 	mlx_loop(data->mlx);
